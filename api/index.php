@@ -9,6 +9,9 @@ putenv("APP_ROUTES_CACHE={$tmpDir}/routes.php");
 putenv("APP_SERVICES_CACHE={$tmpDir}/services.php");
 putenv("VIEW_COMPILED_PATH={$tmpDir}/views");
 
+// Enable debug mode temporarily to reveal exact Vercel exception
+putenv("APP_DEBUG=true");
+
 if (!is_dir("{$tmpDir}/views")) {
     @mkdir("{$tmpDir}/views", 0755, true);
 }

@@ -20,6 +20,7 @@ RUN composer install --no-dev --optimize-autoloader
 # Set permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-EXPOSE 80
+# Gunakan port dinamis dari environment variable PORT bawaan Render (default 10000 jika kosong)
+ENV PORT=10000
 
-CMD php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan serve --host=0.0.0.0 --port=80
+CMD php artisan config:clear && php artisan serve --host=0.0.0.0 --port=$PORT

@@ -23,4 +23,4 @@ RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 # Gunakan port dinamis dari environment variable PORT bawaan Render (default 10000 jika kosong)
 ENV PORT=10000
 
-CMD php artisan config:clear && php artisan serve --host=0.0.0.0 --port=$PORT
+CMD php artisan migrate --force && php artisan db:seed --force && php artisan config:clear && php artisan serve --host=0.0.0.0 --port=$PORT

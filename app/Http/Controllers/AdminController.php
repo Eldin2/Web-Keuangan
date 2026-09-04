@@ -431,7 +431,7 @@ public function bukuKasPdf(Request $request)
         \App\Models\Transaksi::create([
             'tagihan_id' => $tagihan->id,
             'bukti_bayar' => 'Bayar Tunai di Loket', // Keterangan pengganti foto
-            'metode' => 'offline',
+            'metode' => 'cash',
             'nominal_bayar' => $tagihan->nominal,
             'tanggal_bayar' => now(),
         ]);

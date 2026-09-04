@@ -97,7 +97,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-2">Nominal Transfer (Rp)</label>
-                            <input type="number" name="nominal_bayar" class="w-full rounded-xl border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 transition py-3" required>
+                            <input type="number" name="nominal_bayar" class="w-full rounded-xl border-gray-200 bg-gray-100 text-gray-700 cursor-not-allowed transition py-3 font-semibold" readonly placeholder="Otomatis dari pilihan tagihan" required>
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-2">Foto Bukti Transfer</label>

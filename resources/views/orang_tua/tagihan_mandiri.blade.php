@@ -55,20 +55,19 @@
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Kategori Pembayaran</label>
-                            <input list="kategori-datalist" name="tagihan[0][nama_kategori]" placeholder="Pilih atau ketik baru..." class="w-full rounded-xl border-gray-250 bg-white text-sm py-3 px-4 focus:ring-blue-500 focus:border-blue-500" required>
+                            <select name="tagihan[0][nama_kategori]" onchange="updateNominal(this)" class="w-full rounded-xl border-gray-250 bg-white text-sm py-3 px-4 focus:ring-blue-500 focus:border-blue-500 font-medium" required>
+                                <option value="">-- Pilih Kategori Pembayaran --</option>
+                                @foreach($kategori_list as $kl)
+                                    <option value="{{ $kl->nama_kategori }}" data-nominal="{{ (int)$kl->nominal }}">{{ $kl->nama_kategori }} (Rp {{ number_format((int)$kl->nominal, 0, ',', '.') }})</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Nominal (Rp)</label>
-                            <input type="number" name="tagihan[0][nominal]" placeholder="Contoh: 150000" class="w-full rounded-xl border-gray-250 bg-white text-sm py-3 px-4 focus:ring-blue-500 focus:border-blue-500" required min="1000">
+                            <input type="number" name="tagihan[0][nominal]" placeholder="Nominal terisi otomatis..." class="nominal-input w-full rounded-xl border-gray-200 bg-gray-100 text-sm py-3 px-4 text-gray-700 font-bold cursor-not-allowed focus:outline-none" readonly required min="1000">
                         </div>
                     </div>
                 </div>
-
-                <datalist id="kategori-datalist">
-                    @foreach($kategori_list as $kl)
-                        <option value="{{ $kl->nama_kategori }}"></option>
-                    @endforeach
-                </datalist>
 
                 <div class="pt-4 border-t border-gray-100 flex flex-col md:flex-row gap-3 justify-end">
                     <a href="{{ route('orangtua.dashboard') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3.5 px-6 rounded-xl transition text-sm text-center">
@@ -84,6 +83,19 @@
 
     <script>
         let tagihanIndex = 1;
+
+        function updateNominal(selectElement) {
+            const row = selectElement.closest('.grid');
+            const nominalInput = row.querySelector('.nominal-input');
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            const nominal = selectedOption ? selectedOption.getAttribute('data-nominal') : '';
+
+            if (nominal) {
+                nominalInput.value = nominal;
+            } else {
+                nominalInput.value = '';
+            }
+        }
 
         function addTagihanRow() {
             const container = document.getElementById('tagihan-rows-container');
@@ -102,13 +114,18 @@
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Kategori Pembayaran</label>
-                    <input list="kategori-datalist" name="tagihan[${tagihanIndex}][nama_kategori]" placeholder="Pilih atau ketik baru..." class="w-full rounded-xl border-gray-250 bg-white text-sm py-3 px-4 focus:ring-blue-500 focus:border-blue-500" required>
+                    <select name="tagihan[${tagihanIndex}][nama_kategori]" onchange="updateNominal(this)" class="w-full rounded-xl border-gray-250 bg-white text-sm py-3 px-4 focus:ring-blue-500 focus:border-blue-500 font-medium" required>
+                        <option value="">-- Pilih Kategori Pembayaran --</option>
+                        @foreach($kategori_list as $kl)
+                            <option value="{{ $kl->nama_kategori }}" data-nominal="{{ (int)$kl->nominal }}">{{ $kl->nama_kategori }} (Rp {{ number_format((int)$kl->nominal, 0, ',', '.') }})</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Nominal (Rp)</label>
                     <div class="flex gap-2 items-center">
-                        <input type="number" name="tagihan[${tagihanIndex}][nominal]" placeholder="Contoh: 150000" class="w-full rounded-xl border-gray-250 bg-white text-sm py-3 px-4 focus:ring-blue-500 focus:border-blue-500" required min="1000">
-                        <button type="button" onclick="removeTagihanRow(${tagihanIndex})" class="bg-red-100 hover:bg-red-200 text-red-600 p-3 rounded-xl transition">
+                        <input type="number" name="tagihan[${tagihanIndex}][nominal]" placeholder="Nominal terisi otomatis..." class="nominal-input w-full rounded-xl border-gray-200 bg-gray-100 text-sm py-3 px-4 text-gray-700 font-bold cursor-not-allowed focus:outline-none" readonly required min="1000">
+                        <button type="button" onclick="removeTagihanRow(${tagihanIndex})" class="bg-red-100 hover:bg-red-200 text-red-600 p-3 rounded-xl transition" title="Hapus Baris">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                         </button>
                     </div>

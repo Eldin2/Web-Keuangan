@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class KategoriTagihan extends Model
 {
     use HasFactory;
-    protected $fillable = ['nama_kategori'];
+    protected $fillable = ['nama_kategori', 'nominal'];
 }

@@ -132,12 +132,24 @@ class OrangTuaController extends Controller
         return view('admin.cetak_struk', compact('tagihan', 'transaksi'));
     }
 
-    // Halaman Pembuatan Tagihan Mandiri oleh Orang Tua
     public function tagihanMandiri()
     {
         $user_id = Auth::id();
         $anak = \App\Models\Siswa::where('user_id', $user_id)->get();
         $kategori_list = \App\Models\KategoriTagihan::all();
+
+        $default_nominals = [
+            'SPP Bulanan' => 150000,
+            'Uang Gedung & Pendaftaran' => 500000,
+            'Extrakulikuler & Outing Class' => 100000,
+            'Seragam Sekolah' => 250000,
+        ];
+
+        foreach ($kategori_list as $kategori) {
+            if (empty($kategori->nominal) || $kategori->nominal == 0) {
+                $kategori->nominal = $default_nominals[$kategori->nama_kategori] ?? 100000;
+            }
+        }
 
         return view('orang_tua.tagihan_mandiri', compact('anak', 'kategori_list'));
     }

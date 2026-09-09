@@ -125,10 +125,15 @@ class DatabaseSeeder extends Seeder
         );
 
         // 3. Kategori Tagihan
-        $katSpp = KategoriTagihan::firstOrCreate(['nama_kategori' => 'SPP Bulanan']);
-        $katGedung = KategoriTagihan::firstOrCreate(['nama_kategori' => 'Uang Gedung & Pendaftaran']);
-        $katExtra = KategoriTagihan::firstOrCreate(['nama_kategori' => 'Extrakulikuler & Outing Class']);
-        $katSeragam = KategoriTagihan::firstOrCreate(['nama_kategori' => 'Seragam Sekolah']);
+        $katSpp = KategoriTagihan::firstOrCreate(['nama_kategori' => 'SPP Bulanan'], ['nominal' => 150000]);
+        $katGedung = KategoriTagihan::firstOrCreate(['nama_kategori' => 'Uang Gedung & Pendaftaran'], ['nominal' => 500000]);
+        $katExtra = KategoriTagihan::firstOrCreate(['nama_kategori' => 'Extrakulikuler & Outing Class'], ['nominal' => 100000]);
+        $katSeragam = KategoriTagihan::firstOrCreate(['nama_kategori' => 'Seragam Sekolah'], ['nominal' => 250000]);
+
+        $katSpp->update(['nominal' => 150000]);
+        $katGedung->update(['nominal' => 500000]);
+        $katExtra->update(['nominal' => 100000]);
+        $katSeragam->update(['nominal' => 250000]);
 
         // 4. Data Tagihan & Transaksi
         // Tagihan 1: Ahmad Fauzi - SPP (Lunas Cash)

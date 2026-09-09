@@ -124,6 +124,43 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        // 10 Data Siswa Kekinian (7 Cewek, 3 Cowok) beserta Akun Wali (Password: ortu123)
+        $dataSiswaBaru = [
+            // 7 Anak Cewek Kekinian
+            ['nama_siswa' => 'Alesha Zahra Humaira', 'kelas' => 'TK A', 'nis' => '2026010', 'wali_nama' => 'Maya Angelica', 'email' => 'alesha_ortu@tkit.com'],
+            ['nama_siswa' => 'Kiyora Mikayla Putri', 'kelas' => 'TK A', 'nis' => '2026011', 'wali_nama' => 'Fitri Handayani', 'email' => 'kiyora_ortu@tkit.com'],
+            ['nama_siswa' => 'Naura Alayna Syafiqah', 'kelas' => 'TK B', 'nis' => '2026012', 'wali_nama' => 'Rina Agustina', 'email' => 'naura_ortu@tkit.com'],
+            ['nama_siswa' => 'Adreena Clara Shakila', 'kelas' => 'TK B', 'nis' => '2026013', 'wali_nama' => 'Dian Kusuma', 'email' => 'adreena_ortu@tkit.com'],
+            ['nama_siswa' => 'Syakeela Calista Farzana', 'kelas' => 'TK A', 'nis' => '2026014', 'wali_nama' => 'Intan Permata', 'email' => 'syakeela_ortu@tkit.com'],
+            ['nama_siswa' => 'Meyrisha Qanita', 'kelas' => 'TK B', 'nis' => '2026015', 'wali_nama' => 'Anisa Lestari', 'email' => 'meyrisha_ortu@tkit.com'],
+            ['nama_siswa' => 'Arsyila Princessa', 'kelas' => 'TK A', 'nis' => '2026016', 'wali_nama' => 'Widya Hastuti', 'email' => 'arsyila_ortu@tkit.com'],
+            
+            // 3 Anak Cowok Kekinian
+            ['nama_siswa' => 'Alvaro Gavriel Mahardika', 'kelas' => 'TK B', 'nis' => '2026017', 'wali_nama' => 'Reza Pratama', 'email' => 'alvaro_ortu@tkit.com'],
+            ['nama_siswa' => 'Kenzo Rayyan Al-Fatih', 'kelas' => 'TK A', 'nis' => '2026018', 'wali_nama' => 'Hendra Wijaya', 'email' => 'kenzo_ortu@tkit.com'],
+            ['nama_siswa' => 'Arshaka Virendra', 'kelas' => 'TK B', 'nis' => '2026019', 'wali_nama' => 'Ferry Kurniawan', 'email' => 'arshaka_ortu@tkit.com'],
+        ];
+
+        foreach ($dataSiswaBaru as $d) {
+            $userWali = User::firstOrCreate(
+                ['email' => $d['email']],
+                [
+                    'name' => $d['wali_nama'] . ' (Wali ' . explode(' ', $d['nama_siswa'])[0] . ')',
+                    'password' => Hash::make('ortu123'),
+                    'role' => 'orang_tua',
+                ]
+            );
+
+            Siswa::firstOrCreate(
+                ['nis' => $d['nis']],
+                [
+                    'user_id' => $userWali->id,
+                    'nama_siswa' => $d['nama_siswa'],
+                    'kelas' => $d['kelas'],
+                ]
+            );
+        }
+
         // 3. Kategori Tagihan
         $katSpp = KategoriTagihan::firstOrCreate(['nama_kategori' => 'SPP Bulanan'], ['nominal' => 150000]);
         $katGedung = KategoriTagihan::firstOrCreate(['nama_kategori' => 'Uang Gedung & Pendaftaran'], ['nominal' => 500000]);
